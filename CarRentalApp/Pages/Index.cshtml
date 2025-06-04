@@ -1,0 +1,25 @@
+﻿@page
+@using CarRentalApp.Models
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Car Rent</h1>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+
+    @foreach (var car in Model.Cars)
+    {
+        <div class="card d-inline-block m-3">
+            <a href="/RentApp/CarDetails?id=@car.Id">
+                <img src="@car.ImageUrl" class="card-img-top" alt="@car.Make  @car.Model" height="500" style="object-fit: cover;"/>
+            </a>
+            <div class="card-body">
+                <p class="card-text">@car.Make @car.Model</p>
+                <p>@car.Year year</p>
+            </div>
+        </div>
+    }
+    </div>
+</div>
