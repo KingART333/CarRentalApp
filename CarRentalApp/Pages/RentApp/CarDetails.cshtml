@@ -2,8 +2,15 @@
 @model CarRentalApp.Pages.RentApp.CarDetailsModel
 @{
     ViewData["Title"] = "Car Details";
-    var folderName = Model.SelectedCar.Make + " " + Model.SelectedCar.Model;
-    var basePath = "/ImagesForTesting/" + folderName;
+
+    string folderName = "";
+    string basePath = "";
+
+	if (Model.SelectedCar != null)
+	{
+        folderName = Model.SelectedCar.Make + " " + Model.SelectedCar.Model;
+        basePath = "/ImagesForTesting/" + folderName;
+	}
 }
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center;">
@@ -28,7 +35,7 @@
     @if (Model.SelectedCar.IsAvailable)
     {
         <!-- RENTAL FORM -->
-        <form method="post" style="margin: 20px;">
+        <form method="post" asp-page-handler="Rent" style="margin: 20px;">
             <label for="days">Number of days to rent:</label>
             <input type="number" id="days" name="days" min="1" required />
             <input type="hidden" name="id" value="@Model.SelectedCar.Id" />

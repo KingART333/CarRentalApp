@@ -13,6 +13,9 @@ namespace CarRentalApp.Data
 
         public DbSet<CarRental> CarRentals { get; set; }
         public DbSet<Car> Cars { get; set; }
+
+
+
        
     }
 }
