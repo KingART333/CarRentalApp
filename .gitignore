@@ -7,6 +7,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 .vs/
+car_rental.db-shm
+CarRentalApp/car_rental.db-shm
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

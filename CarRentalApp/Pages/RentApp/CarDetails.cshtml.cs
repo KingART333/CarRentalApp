@@ -21,7 +21,10 @@ namespace CarRentalApp.Pages.RentApp
         public Car SelectedCar { get; set; }
 
         [BindProperty]
-        public int Days { get; set; }
+        public DateTime FromDate { get; set; }
+
+        [BindProperty]
+        public DateTime ToDate { get; set; }
 
         public void OnGet(int id)
         {
@@ -41,26 +44,34 @@ namespace CarRentalApp.Pages.RentApp
             var userId = _userManager.GetUserId(User);
             if (userId == null)
             {
-                return Challenge(); // Redirect to login if not authenticated
+                return Challenge(); // User must be logged in
             }
+
+            if (FromDate > ToDate)
+            {
+                ModelState.AddModelError("", "Return date must be after or equal to rent date.");
+                return Page();
+            }
+
+            int rentalDays = (ToDate - FromDate).Days + 1;
 
             var rental = new CarRental
             {
                 UserId = userId,
                 CarId = SelectedCar.Id,
-                RentDate = DateTime.Today,
-                ReturnDate = DateTime.Today.AddDays(Days)
+                RentDate = FromDate,
+                ReturnDate = ToDate
             };
-
             SelectedCar.IsAvailable = false;
-            SelectedCar.RentedUntil = rental.ReturnDate;
+            SelectedCar.RentedUntil = ToDate;
 
             _context.CarRentals.Add(rental);
             _context.SaveChanges();
 
-            TempData["Message"] = $"You rented the car for {Days} days. Total price: ${Days * SelectedCar.PricePerDay}";
+            TempData["Message"] = $"You rented the car from {FromDate:dd MMM} to {ToDate:dd MMM}. Total price: ${rentalDays * SelectedCar.PricePerDay}";
             return RedirectToPage(new { id = id });
         }
+
 
     }
 }

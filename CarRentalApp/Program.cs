@@ -21,7 +21,7 @@ namespace CarRentalApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
 
-            builder.Services.AddSingleton<CarService>();
+            builder.Services.AddScoped<CarService>();
 
             var app = builder.Build();
 

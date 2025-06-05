@@ -14,7 +14,7 @@
 }
 
 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center;">
-    <h1>@Model.SelectedCar.Make @Model.SelectedCar.Model</h1>
+    <h2 style="font-size: 2.2rem">@Model.SelectedCar.Make @Model.SelectedCar.Model</h2>
 
     <!-- SUCCESS MESSAGE -->
     @if (TempData["Message"] != null)
@@ -23,24 +23,33 @@
     }
 
     <!-- MAIN IMAGE -->
-    <div class="text-center">
+    <div style="text-align:center;">
         <img id="mainImage"
              src="@($"{basePath}/1.jpg")"
              alt="Main Car Image"
-             style="max-width: 500px; height:400px; margin-bottom:20px; object-fit: contain;" />
+             style="max-width: 500px; height:400px;  object-fit: contain;" />
     </div>
 
-    <p><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
+    <p style="font-size: 1.4rem"><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
 
     @if (Model.SelectedCar.IsAvailable)
     {
         <!-- RENTAL FORM -->
-        <form method="post" asp-page-handler="Rent" style="margin: 20px;">
-            <label for="days">Number of days to rent:</label>
-            <input type="number" id="days" name="days" min="1" required />
+        <form method="post" asp-page-handler="Rent" style="display:flex; align-items: center; gap: 12px; margin: 20px;">
+            <div>
+
+            <label for="fromDate" style="font-size: 1.6rem">From:</label>
+            <input type="date" id="fromDate" name="FromDate" required min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div>
+            <label for="toDate" style="font-size: 1.6rem">To:</label>
+            <input type="date" id="toDate" name="ToDate" required min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="handleCalcPrice()" />
+            </div>
+
             <input type="hidden" name="id" value="@Model.SelectedCar.Id" />
-            <button type="submit">Rent this car</button>
+            <button type="submit" class="car-rent-btn">Rent this car</button>
         </form>
+        <p id="priceDisplay" style="font-size: 1.8rem; color: darkgreen; margin: 10px 0;"></p>
     }
     else
     {
@@ -63,6 +72,28 @@
     <script>
         function changeMainImage(newSrc) {
             document.getElementById('mainImage').src = newSrc;
+        };
+        const pricePerDay = @Model.SelectedCar.PricePerDay;
+
+        function handleCalcPrice() {
+            const fromDate = document.getElementById("fromDate").value;
+            const toDate = document.getElementById("toDate").value;
+
+            if (fromDate && toDate) {
+                const start = new Date(fromDate);
+                const end = new Date(toDate);
+
+                // Calculate the number of days (inclusive of first day)
+                const diffTime = end - start;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 0) {
+                    const totalPrice = diffDays * pricePerDay;
+                    document.getElementById("priceDisplay").innerText = `Total price for ${diffDays} day(s): $${totalPrice}`;
+                } else {
+                    document.getElementById("priceDisplay").innerText = "Please select a valid date range.";
+                }
+            }
         }
     </script>
 }

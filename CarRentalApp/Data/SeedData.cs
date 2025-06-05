@@ -11,6 +11,14 @@ namespace CarRentalApp
             using var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>());
 
+            // DEV RESET: Clear rental state for testing
+            //foreach (var car in context.Cars)
+            //{
+            //    car.IsAvailable = true;
+            //    car.RentedUntil = null;
+            //}
+            //context.SaveChanges();
+
             if (context.Cars.Any()) return; // DB already seeded
 
             context.Cars.AddRange(

@@ -1,37 +1,317 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+  font-size: 62.5%;
 }
+
 
 body {
-  margin-bottom: 60px;
+    width: 100%;
+    height: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* reset */
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+ul, ol {
+    list-style: none;
+}
+
+a {
+   text-decoration: none;
+   color: inherit;
+}
+
+input {
+    font-size: 1.4rem !important;
+}
+
+/* helper */
+
+.container {
+    width: 100%;
+    max-width: 1920px;
+    padding: 0 16px;
+    margin: 0 auto;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.humburger {
+    display: none;
+}
+
+.humburger > div {
+    width: 30px;
+    height: 2px;
+    background-color: black;
+    margin: 6px 0;
+}
+
+.rounded-sm {
+    border-radius: 12px;
+}
+
+/*header*/
+
+.header {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    height: 70px;
+}
+
+.logo {
+    display:block;
+    width: 60px;
+    height: 60px;
+}
+
+.nav {
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display:flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-center {
+    display:flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+}
+
+.nav-item  {
+    font-size: 1.6rem;
+    color: black;
+    font-weight: 600;
+}
+
+.nav-item-btn {
+    display: inline-block;
+    padding: 12px 16px;
+    background-color: #007bff;
+    border-radius: 12px;
+    color: white;
+}
+
+.nav-item-btn:focus {
+   transform: scale(0.95);
+}
+    .nav-item-btn:hover {
+        background-color: #0056b3;
+        opacity: 0.8;
+    }
+
+/*MAIN*/
+
+.main {
+    padding: 16px 0;
+}
+
+/*HOME*/
+
+.home {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.car-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+@media screen and (max-width: 1024px) {
+    .car-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+.card {
+    padding: 12px;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.car-img-wrapper {
+    display: inline-block;
+    width: 100%;
+}
+.car-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+.car-img-wrapper:hover {
+    transform: scale(1.04)
+}
+
+.car-card-body {
+    margin-top: 12px;
+    display: flex;
+    flex-direction:column;
+    gap: 4px;
+}
+.car-name {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.car-year {
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.heading-primary {
+    font-size: 3.6rem;
+    line-height: normal;
+}
+
+/*footer*/
+ 
+.footer {
+    display: flex;
+    position: static !important;
+    line-height: normal;
+}
+.copywrite {
+    font-size: 1.4rem;
+}
+
+/*details*/
+
+.car-rent-btn {
+    padding: 6px 10px;
+    background-color: black;
+    border-radius: 12px;
+    color: white
+}
+.car-rent-btn:hover {
+    opacity: 0.9;
+}
+
+.car-rent-btn:focus {
+    transform: scale(0.95)
+}
+
+
+/* LOGIN */
+.lg-rg-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.left-column {
+    flex: 1 1 30%;
+    min-width: 300px;
+}
+
+.right-column {
+  display: none;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-label {
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+.login-label-sm {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.checkbox-group {
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.4rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+.links a {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+.text-danger {
+    color: red;
+}
+
+.external-login-buttons button {
+    margin: 0.5rem 0.5rem 0 0;
+}
+
+.links {
+    display:flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 1.2rem;
 }
 
 .card-img-top {
-    height: 500px;
+    height: 100px;
     object-fit: cover;
 }
 
