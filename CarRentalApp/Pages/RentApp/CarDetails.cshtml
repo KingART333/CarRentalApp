@@ -1,0 +1,103 @@
+﻿@page
+@model CarRentalApp.Pages.RentApp.CarDetailsModel
+@{
+    ViewData["Title"] = "Car Details";
+
+    string folderName = "";
+    string basePath = "";
+
+	if (Model.SelectedCar != null)
+	{
+        folderName = Model.SelectedCar.Make + " " + Model.SelectedCar.Model;
+        basePath = "/ImagesForTesting/" + folderName;
+	}
+}
+
+<div style="display: flex; flex-direction: column; align-items: center; justify-content:center;">
+    <h1>@Model.SelectedCar.Make @Model.SelectedCar.Model</h1>
+
+    <!-- SUCCESS MESSAGE -->
+    @if (TempData["Message"] != null)
+    {
+        <p style="color: green;">@TempData["Message"]</p>
+    }
+
+    @if (Model.SelectedCar.Images?.Any() == true)
+    {
+        <div class="text-center">
+            <img id="mainImage"
+                 src="data:image/jpeg;base64,@Convert.ToBase64String(Model.SelectedCar.Images.First().ImageData)"
+                 alt="Main Car Image"
+                 style="max-width: 500px; height:400px; margin-bottom:20px; object-fit: contain;" />
+        </div>
+
+        <div class="text-center">
+            @foreach (var img in Model.SelectedCar.Images)
+            {
+                var imgSrc = $"data:image/jpeg;base64,{Convert.ToBase64String(img.ImageData)}";
+                <img src="@imgSrc"
+                     onclick="changeMainImage('@imgSrc')"
+                     style="width: 100px; height: auto; margin: 5px; cursor: pointer; border: 1px solid gray; object-fit: contain;" />
+            }
+        </div>
+    }
+
+    <p><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
+
+      
+        @if (Model.SelectedCar.IsAvailable)
+        {
+            <!-- RENTAL FORM -->
+            <form method="post" asp-page-handler="Rent" style="display:flex; align-items: center; gap: 12px; margin: 20px;">
+                <div>
+
+                    <label for="fromDate" style="font-size: 1.6rem">From:</label>
+                    <input type="date" id="fromDate" name="FromDate" required min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </div>
+                <div>
+                    <label for="toDate" style="font-size: 1.6rem">To:</label>
+                    <input type="date" id="toDate" name="ToDate" required min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="handleCalcPrice()" />
+                </div>
+
+                <input type="hidden" name="id" value="@Model.SelectedCar.Id" />
+                <button type="submit" class="car-rent-btn">Rent this car</button>
+            </form>
+            <p id="priceDisplay" style="font-size: 1.8rem; color: darkgreen; margin: 10px 0;"></p>
+        }
+    else
+    {
+        <p style="color:red;"><strong>This car is rented until @Model.SelectedCar.RentedUntil?.ToString("dd MMM yyyy")</strong></p>
+    }
+
+    
+</div>
+
+@section Scripts {
+    <script>
+        function changeMainImage(newSrc) {
+            document.getElementById('mainImage').src = newSrc;
+        };
+        const pricePerDay = @Model.SelectedCar.PricePerDay;
+
+        function handleCalcPrice() {
+            const fromDate = document.getElementById("fromDate").value;
+            const toDate = document.getElementById("toDate").value;
+
+            if (fromDate && toDate) {
+                const start = new Date(fromDate);
+                const end = new Date(toDate);
+
+                // Calculate the number of days (inclusive of first day)
+                const diffTime = end - start;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 0) {
+                    const totalPrice = diffDays * pricePerDay;
+                    document.getElementById("priceDisplay").innerText = `Total price for ${diffDays} day(s): $${totalPrice}`;
+                } else {
+                    document.getElementById("priceDisplay").innerText = "Please select a valid date range.";
+                }
+            }
+        }
+    </script>
+}

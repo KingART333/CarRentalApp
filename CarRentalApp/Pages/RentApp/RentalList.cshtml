@@ -1,0 +1,54 @@
+﻿@page
+@model CarRentalApp.Pages.RentApp.RentalListModel
+@{
+    ViewData["Title"] = "Rental List";
+}
+
+<h2>Rental List</h2>
+
+@if (Model.Rentals.Count == 0)
+{
+    <p>No rentals found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Car ID</th>
+                <th>Car Make</th>
+                <th>Car Model</th>
+                <th>Rent Date</th>
+                <th>Return Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rental in Model.Rentals)
+            {
+                <tr>
+                    <td>@rental.Id</td>
+                    <td>@rental.UserName</td>
+                    <td>@rental.CarId</td>
+                    <td>@rental.Car?.Make</td>
+                    <td>@rental.Car?.Model</td>
+                    <td>@rental.RentDate.ToShortDateString()</td>
+                    <td>@(rental.ReturnDate?.ToShortDateString() ?? "Not returned")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    //Pagination
+    <div>
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a asp-page="/pagination" asp-route-currentpage="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+}

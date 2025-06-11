@@ -1,0 +1,49 @@
+﻿@page "{id?}"
+@model CarRentalApp.Pages.RentApp.EditModel
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h2>@(Model.NewCar.Id == 0 ? "Add New Car" : "Edit Car")</h2>
+
+<form asp-page-handler="edit" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label>Id</label>
+		<input asp-for="NewCar.Id" class="form-control" />
+		<span asp-validation-for="NewCar.Id" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Make</label>
+		<input asp-for="NewCar.Make" class="form-control" />
+		<span asp-validation-for="NewCar.Make" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Model</label>
+		<input asp-for="NewCar.Model" class="form-control" />
+		<span asp-validation-for="NewCar.Model" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Year</label>
+		<input asp-for="NewCar.Year" class="form-control" />
+		<span asp-validation-for="NewCar.Year" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Price per day</label>
+		<input asp-for="NewCar.PricePerDay" class="form-control" />
+		<span asp-validation-for="NewCar.PricePerDay" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Upload Images</label>
+		<input asp-for="Upload" type="file" class="form-control" multiple />
+		<span asp-validation-for="Upload" class="text-danger"></span>
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<form asp-page-handler="delete" method="post">
+	<div class=" form-group">
+		<label>Id</label>
+		<input asp-for="NewCar.Id" class="form-control"/>
+		<button type="submit" class="btn btn-danger">Delete</button>
+	</div>
+</form>
