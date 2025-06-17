@@ -23,7 +23,7 @@ namespace CarRentalApp
             builder.Services.AddRazorPages();
 
             //builder.Services.AddScoped<CarService>();
-            //builder.Services.AddScoped<RoleAssignmentService>();
+            builder.Services.AddScoped<RoleAssignmentService>();
 
 
             var app = builder.Build();
@@ -56,6 +56,22 @@ namespace CarRentalApp
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+
+            app.Use(async (context, next) =>
+            {
+                if (context.User.Identity?.IsAuthenticated == true)
+                {
+                    var userManager = context.RequestServices.GetRequiredService<UserManager<IdentityUser>>();
+                    var roleService = context.RequestServices.GetRequiredService<RoleAssignmentService>();
+                    var user = await userManager.GetUserAsync(context.User);
+                    if (user != null)
+                    {
+                        await roleService.EnsureUserRoleAsync(user);
+                    }
+                }
+
+                await next();
+            });
 
             app.Run();
         }
