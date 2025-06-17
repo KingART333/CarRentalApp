@@ -22,7 +22,36 @@
         <p style="color: green;">@TempData["Message"]</p>
     }
 
+    <!-- Carousel -->
     @if (Model.SelectedCar.Images?.Any() == true)
+    {
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="width:500px; margin-bottom: 20px;">
+            <div class="carousel-inner">
+                @{
+                    int i = 0;
+                }
+                @foreach (var img in Model.SelectedCar.Images)
+                {
+                    var imgSrc = $"data:image/jpeg;base64,{Convert.ToBase64String(img.ImageData)}";
+                    var activeClass = i == 0 ? "active" : "";
+                    <div class="carousel-item @activeClass">
+                        <img src="@imgSrc" class="d-block w-100" alt="Car Image" style="height:400px; object-fit:contain;" />
+                    </div>
+                    i++;
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    }
+
+    @* @if (Model.SelectedCar.Images?.Any() == true)
     {
         <div class="text-center">
             <img id="mainImage"
@@ -40,7 +69,7 @@
                      style="width: 100px; height: auto; margin: 5px; cursor: pointer; border: 1px solid gray; object-fit: contain;" />
             }
         </div>
-    }
+    } *@
 
     <p><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
 
@@ -74,9 +103,9 @@
 
 @section Scripts {
     <script>
-        function changeMainImage(newSrc) {
-            document.getElementById('mainImage').src = newSrc;
-        };
+        // function changeMainImage(newSrc) {
+        //     document.getElementById('mainImage').src = newSrc;
+        // };
         const pricePerDay = @Model.SelectedCar.PricePerDay;
 
         function handleCalcPrice() {

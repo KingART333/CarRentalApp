@@ -6,6 +6,20 @@
 
 <h2>Rental List</h2>
 
+<form method="get" class="mb-3">
+    <label for="filter">Sort by:</label>
+    <select name="Filter" onchange="this.form.submit()">
+        <option value="">Default</option>
+        <option value="Id" selected="@("Id" == Model.Filter)">by Id</option>
+        <option value="Name" selected="@("Name" == Model.Filter)">by Name</option>
+        <option value="Car Id" selected="@("Car Id" == Model.Filter)">by Car Id</option>
+        <option value="Car Make" selected="@("Car Make" == Model.Filter)">by Car Make</option>
+        <option value="Car Model" selected="@("Car Model" == Model.Filter)">by Car Model</option>
+        <option value="Rent Date" selected="@("Rent Date" == Model.Filter)">by Rent Date</option>
+        <option value="Return Date" selected="@("Return Date" == Model.Filter)">by Return Date</option>
+    </select>
+</form>
+
 @if (Model.Rentals.Count == 0)
 {
     <p>No rentals found.</p>
@@ -16,19 +30,6 @@ else
         <thead>
             <tr>
 
-                <form method="get">
-                    <label for="filter">Sort by:</label>
-                    <select name="Filter" onchange="this.form.submit()">
-                        <option value="">Default</option>
-                        <option value="Id" selected="@("Id" == Model.Filter)">by Id</option>
-                        <option value="Name" selected="@("Name" == Model.Filter)">by Name</option>
-                        <option value="Car Id" selected="@("Car Id" == Model.Filter)">by Car Id</option>
-                        <option value="Car Make" selected="@("Car Make" == Model.Filter)">by Car Make</option>
-                        <option value="Car Model" selected="@("Car Model" == Model.Filter)">by Car Model</option>
-                        <option value="Rent Date" selected="@("Rent Date" == Model.Filter)">by Rent Date</option>
-                        <option value="Return Date" selected="@("Return Date" == Model.Filter)">by Return Date</option>
-                    </select>
-                </form>
 
                 <th>ID</th>
                 <th>Customer Name</th>
