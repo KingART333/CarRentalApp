@@ -6,6 +6,8 @@
 
 <h2>@(Model.NewCar.Id == 0 ? "Add New Car" : "Edit Car")</h2>
 
+
+
 <form asp-page-handler="edit" method="post" enctype="multipart/form-data">
 	<div class="form-group">
 		<label>Id</label>
@@ -39,6 +41,13 @@
 	</div>
 	<button type="submit" class="btn btn-primary">Save</button>
 </form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+	<div class="alert alert-danger">
+		@Model.ErrorMessage
+	</div>
+}
 
 <form asp-page-handler="delete" method="post">
 	<div class=" form-group">

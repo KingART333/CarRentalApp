@@ -17,10 +17,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-}
-
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
@@ -38,4 +34,12 @@ body {
 .card-body {
     height: 100px;
 }
-    
+
+body {
+    margin-bottom: 60px;
+    background-image: url("/RentBack.jpg");
+    background-size: cover; /* Makes the image cover the entire screen */
+    background-position: center; /* Keeps the image centered */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-attachment: fixed; /* (optional) keeps image fixed during scroll */
+}

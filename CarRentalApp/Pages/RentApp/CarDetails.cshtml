@@ -22,10 +22,28 @@
         <p style="color: green;">@TempData["Message"]</p>
     }
 
+
+
+
+
     <!-- Carousel -->
     @if (Model.SelectedCar.Images?.Any() == true)
     {
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="width:500px; margin-bottom: 20px;">
+
+            <div class="carousel-indicators">
+                @{
+                    int index = 0;
+                    foreach (var img in Model.SelectedCar.Images)
+                    {
+                        var activeClass = index == 0 ? "active" : "";
+                        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="@index" class="@activeClass" aria-current="@(index == 0 ? "true" : "false")" aria-label="Slide @(index + 1)"></button>
+                        ;
+                        index++;
+                    }
+                }
+            </div>
+
             <div class="carousel-inner">
                 @{
                     int i = 0;
@@ -40,16 +58,19 @@
                     i++;
                 }
             </div>
+
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
+
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     }
+
 
     @* @if (Model.SelectedCar.Images?.Any() == true)
     {
@@ -71,7 +92,7 @@
         </div>
     } *@
 
-    <p><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
+    <p style="color: white"><strong>Price per day:</strong> $@Model.SelectedCar.PricePerDay</p>
 
       
         @if (Model.SelectedCar.IsAvailable)
@@ -79,7 +100,6 @@
             <!-- RENTAL FORM -->
             <form method="post" asp-page-handler="Rent" style="display:flex; align-items: center; gap: 12px; margin: 20px;">
                 <div>
-
                     <label for="fromDate" style="font-size: 1.6rem">From:</label>
                     <input type="date" id="fromDate" name="FromDate" required min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                 </div>
@@ -89,7 +109,7 @@
                 </div>
 
                 <input type="hidden" name="id" value="@Model.SelectedCar.Id" />
-                <button type="submit" class="car-rent-btn">Rent this car</button>
+                <button type="submit" class="car-rent-btn" style="margin-top: 10px">Rent this car</button>
             </form>
             <p id="priceDisplay" style="font-size: 1.8rem; color: darkgreen; margin: 10px 0;"></p>
         }
@@ -101,7 +121,8 @@
     
 </div>
 
-@section Scripts {
+@section Scripts 
+{
     <script>
         // function changeMainImage(newSrc) {
         //     document.getElementById('mainImage').src = newSrc;

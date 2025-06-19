@@ -1,36 +1,31 @@
 ﻿@page
 @model CarRentalApp.Pages.RentApp.RentalListModel
+
 @{
     ViewData["Title"] = "Rental List";
 }
 
 <h2>Rental List</h2>
 
-<form method="get" class="mb-3">
-    <label for="filter">Sort by:</label>
-    <select name="Filter" onchange="this.form.submit()">
-        <option value="">Default</option>
-        <option value="Id" selected="@("Id" == Model.Filter)">by Id</option>
-        <option value="Name" selected="@("Name" == Model.Filter)">by Name</option>
-        <option value="Car Id" selected="@("Car Id" == Model.Filter)">by Car Id</option>
-        <option value="Car Make" selected="@("Car Make" == Model.Filter)">by Car Make</option>
-        <option value="Car Model" selected="@("Car Model" == Model.Filter)">by Car Model</option>
-        <option value="Rent Date" selected="@("Rent Date" == Model.Filter)">by Rent Date</option>
-        <option value="Return Date" selected="@("Return Date" == Model.Filter)">by Return Date</option>
-    </select>
-</form>
+<form method="get" class="mb-3" id="filterForm">
+    <div class="mb-3">
+        <label for="sort">Sort by:</label>
+        <select name="Sort" onchange="this.form.submit()">
+            <option value="">Default</option>
+            <option value="Id" selected="@("Id" == Model.Sort)">by Id</option>
+            <option value="Name" selected="@("Name" == Model.Sort)">by Name</option>
+            <option value="CarId" selected="@("CarId" == Model.Sort)">by Car Id</option>
+            <option value="CarMake" selected="@("CarMake" == Model.Sort)">by Car Make</option>
+            <option value="CarModel" selected="@("CarModel" == Model.Sort)">by Car Model</option>
+            <option value="RentDate" selected="@("RentDate" == Model.Sort)">by Rent Date</option>
+            <option value="ReturnDate" selected="@("ReturnDate" == Model.Sort)">by Return Date</option>
+        </select>
+    </div>
 
-@if (Model.Rentals.Count == 0)
-{
-    <p>No rentals found.</p>
-}
-else
-{
+
     <table class="table">
         <thead>
             <tr>
-
-
                 <th>ID</th>
                 <th>Customer Name</th>
                 <th>Car ID</th>
@@ -38,6 +33,48 @@ else
                 <th>Car Model</th>
                 <th>Rent Date</th>
                 <th>Return Date</th>
+            </tr>
+            <tr>
+                <th>
+                    <div class="position-relative">
+                        <i class="bi bi-filter position-absolute l- top-50 translate-middle-y" style="left: 6px"></i>
+                        <input asp-for="SearchId" class="form-control ps-4"/>
+                    </div>
+                </th>
+                <th>
+                    <div class="position-relative">
+                        <i class="bi bi-filter position-absolute l- top-50 translate-middle-y" style="left: 6px"></i>
+                        <input asp-for="SearchUserName" class="form-control ps-4"/>
+                    </div>
+                </th>
+                <th>
+                    <div class="position-relative">
+                        <i class="bi bi-filter position-absolute l- top-50 translate-middle-y" style="left: 6px"></i>
+                        <input asp-for="SearchCarId" class="form-control ps-4"/>
+                    </div>
+                </th>
+                <th>
+                    <div class="position-relative">
+                        <i class="bi bi-filter position-absolute l- top-50 translate-middle-y" style="left: 6px"></i>
+                        <input asp-for="SearchMake" class="form-control ps-4"/>
+                    </div>
+                </th>
+                <th>
+                    <div class="position-relative">
+                        <i class="bi bi-filter position-absolute l- top-50 translate-middle-y" style="left: 6px"></i>
+                        <input asp-for="SearchModel" class="form-control ps-4"/>
+                    </div>
+                </th>
+                <th>
+                    <div>
+                        <input asp-for="SearchRentDate" type="date" class="form-control"/>
+                    </div>
+                </th>
+                <th>
+                    <div>
+                        <input asp-for="SearchReturnDate" type="date" class="form-control"/>
+                    </div>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -56,7 +93,6 @@ else
         </tbody>
     </table>
 
-    //Pagination
     <div>
         <ul class="pagination">
             @for (var i = 1; i <= Model.TotalPages; i++)
@@ -67,4 +103,19 @@ else
             }
         </ul>
     </div>
+</form>
+@section Scripts 
+{
+    <script>
+        let timer;
+        document.querySelectorAll('#filterForm input').forEach(input => {
+            input.addEventListener('input', () => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    document.getElementById('filterForm').submit();
+                }, 300);
+            });
+        });
+ 
+    </script>
 }

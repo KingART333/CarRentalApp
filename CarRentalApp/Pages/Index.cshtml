@@ -6,9 +6,8 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Car Rent</h1>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
-
+    <h1 class="display-4" style="font-weight: bold">Car Rent</h1>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;"> 
     @foreach (var car in Model.Cars)
     {
         <div class="card d-inline-block m-3">
@@ -20,7 +19,7 @@
                     }
             </a>
             <div class="card-body">
-                <p class="card-text">@car.Make @car.Model</p>
+                <p class="card-text" style=" font-weight: 500">@car.Make @car.Model</p>
                 <p>@car.Year year</p>
             </div>
         </div>

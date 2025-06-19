@@ -24,6 +24,9 @@ namespace CarRentalApp.Pages.RentApp
         [BindProperty]
         public List<IFormFile> Upload { get; set; }
 
+        [BindProperty]
+        public string ErrorMessage { get; set; }
+
         public IActionResult OnGet(int? id)
         {
             if (id == null)
@@ -93,16 +96,21 @@ namespace CarRentalApp.Pages.RentApp
             return RedirectToPage("/Index");
         }
 
-        
+
         public async Task<IActionResult> OnPostDelete()
         {
             var car = _context.Cars.FirstOrDefault(c => c.Id == NewCar.Id);
-            if (car != null)
+
+            if (car == null)
             {
-                _context.Cars.Remove(car);
-                await _context.SaveChangesAsync();
+                ErrorMessage = $"Car with ID {NewCar.Id} not found.";
+                return Page();
             }
-                return RedirectToPage("/Index");
+
+            _context.Cars.Remove(car);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Index");
         }
     }
 }
