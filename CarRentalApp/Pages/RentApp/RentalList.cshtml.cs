@@ -67,11 +67,11 @@ namespace CarRentalApp.Pages.RentApp
             if (!string.IsNullOrEmpty(SearchModel))
                 query = query.Where(r => r.Car.Model.ToLower().Contains(SearchModel.ToLower()));
 
-            if (SearchRentDate != default(DateTime) && DateTime.TryParse(SearchRentDate.ToString(), out DateTime rentDate))
-                query = query.Where(r => r.RentDate.Date == rentDate.Date);
+            if (SearchRentDate.HasValue)
+                query = query.Where(r => r.RentDate.Date == SearchRentDate.Value.Date);
 
-            if (SearchReturnDate != default(DateTime) && DateTime.TryParse(SearchReturnDate.ToString(), out DateTime returnDate))
-                query = query.Where(r => r.ReturnDate.HasValue && r.ReturnDate.Value.Date == returnDate.Date);
+            if (SearchReturnDate.HasValue)
+                query = query.Where(r => r.ReturnDate.HasValue && r.ReturnDate.Value.Date == SearchReturnDate.Value.Date);
 
             switch (Sort)
             {
